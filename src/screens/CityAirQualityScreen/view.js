@@ -1,10 +1,10 @@
 import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 
-export default () => {
+export default ({city}) => {
   return (
     <SafeAreaView>
-      <Text>City Air Quality Screen</Text>
+      <Text>{city.name}</Text>
     </SafeAreaView>
   );
 };
