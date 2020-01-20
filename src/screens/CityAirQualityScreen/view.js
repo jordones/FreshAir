@@ -1,10 +1,10 @@
 import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 
-export default ({city}) => {
+export default ({name, data}) => {
   return (
     <SafeAreaView>
-      <Text>{city.name}</Text>
+      <Text>{name}</Text>
     </SafeAreaView>
   );
 };
