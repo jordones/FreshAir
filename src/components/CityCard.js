@@ -19,31 +19,6 @@ export default ({name, data, error, imageUrl, onPress}) => {
 
   const category = data?.indexes?.baqi?.category;
 
-  // if (error) {
-  //   return (
-  //     <TouchableOpacity
-  //       onPress={onPress}
-  //       style={cityCardStyle}
-  //     >
-  //       <ImageBackground
-  //         style={{ width: "100%", height: "100%" }}
-  //         source={{ uri: imageUrl }}
-  //       >
-  //         <View style={styles.row}>
-  //           <Text style={styles.cityName}>{name}</Text>
-  //           <Text style={styles.categoryText}>Not found</Text>
-  //         </View>        
-  //         </ImageBackground>
-  //     </TouchableOpacity>
-  //   );
-  // } else {
-
-    // const {
-    //   indexes: {
-    //     baqi: {category}
-    //   }
-    // } = data;
-
     return (
       <TouchableOpacity
         onPress={onPress}
@@ -63,7 +38,6 @@ export default ({name, data, error, imageUrl, onPress}) => {
       </TouchableOpacity>
     );
   }
-// };
 
 const styles = StyleSheet.create({
   card: {

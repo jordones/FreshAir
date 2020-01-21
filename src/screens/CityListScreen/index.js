@@ -4,53 +4,27 @@ import CityListView from './view';
 // Service
 import {getAirQualityData} from '../../services/AirQuality';
 
-// Mock Data
-const mockCityData = [
-  {
-      name: 'Toronto',
-      lat: '43.6532',
-      lon: '79.3832',
-      data: null,
-      error: false,
-      imageUrl: 'https://user-images.githubusercontent.com/9268926/72698951-3ba39500-3afb-11ea-87eb-871d849fa531.png' 
-  },
-  {
-      name: 'Montreal',
-      lat: '45.5017',
-      lon: '73.5673',
-      data: null,
-      error: false,
-      imageUrl: 'https://user-images.githubusercontent.com/9268926/72698952-3ba39500-3afb-11ea-8756-3ec4f194b27d.png'
-  },
-  {
-      name: 'Vancouver',
-      lat: '49.2827',
-      lon: '123.1207',
-      data: null,
-      error: false,
-      imageUrl: 'https://user-images.githubusercontent.com/9268926/72698950-3ba39500-3afb-11ea-941c-8ce80903bad9.png'
-  },
-];
-
-// Toronto (43.6532° N, 79.3832° W)
-// Montreal (45.5017° N, 73.5673° W)
-// Vancouver (49.2827° N, 123.1207° W)
+// City data
+import {constantCityData} from './constants';
 
 const useAirQualityData = cities => {
   const [cityData, setCityData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const refreshCityData = async () => {
       try {
         setLoading(true);
-
+        setError(false);
         const airQualityData = await Promise.all(
           cities.map(({ lat, lon }) =>
             getAirQualityData(lat, lon).catch(error => null)
           )
         );
         const copyOfCityData = [...cities];
+
+        // Map air quality data to city data
         for (let i = 0; i < copyOfCityData.length; i++) {
           copyOfCityData[i].error = false;
           airQualityData[i]
@@ -59,7 +33,7 @@ const useAirQualityData = cities => {
         }
         setCityData(copyOfCityData);
       } catch (error) {
-        console.log(error);
+        setError(true)
       } finally {
         setLoading(false);
       }
@@ -68,11 +42,11 @@ const useAirQualityData = cities => {
     refreshCityData();
   }, [cities]);
 
-  return [cityData, loading];
+  return [cityData, loading, error];
 };
 
 export default ({ navigation }) => {
-  const [cityList, loading] = useAirQualityData(mockCityData);
+  const [cityList, loading, error] = useAirQualityData(constantCityData);
 
   const openCityAirQualityScreen = (name, data) => {
     return navigation.navigate({
@@ -89,6 +63,7 @@ export default ({ navigation }) => {
     <CityListView
       cityList={cityList}
       loading={loading}
+      error={error}
       openCityAirQualityScreen={openCityAirQualityScreen}
     />
   );
