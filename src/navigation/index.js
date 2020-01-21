@@ -5,8 +5,21 @@ import CityAirQualityScreen from '../../src/screens/CityAirQualityScreen';
 
 const MainNavigator = createStackNavigator(
   {
-    CityList: {screen: CityListScreen},
-    CityAirQuality: {screen: CityAirQualityScreen},
+    CityList: {
+      screen: CityListScreen,
+      navigationOptions: {
+        title: 'Fresh Air 🌬️'
+      }
+    },
+    CityAirQuality: {
+      screen: CityAirQualityScreen,
+      navigationOptions: ({navigation}) => {
+        return {
+          title: navigation.getParam('name', 'City'),
+          headerBackTitle: 'back'
+        };
+      }
+    },
   },
   {
     initialRouteName: 'CityList',
