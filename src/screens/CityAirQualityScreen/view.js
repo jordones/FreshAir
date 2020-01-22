@@ -8,6 +8,7 @@ export default ({aqi, category, dominantPollutant, error, healthRecommendation, 
   const renderPickerOptions = () => {
     return Object.keys(healthRecommendationToTitleMap).map((item) => (
       <Picker.Item
+        key={item}
         label={healthRecommendationToTitleMap[item]}
         value={item}
         />
