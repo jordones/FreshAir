@@ -1,8 +1,18 @@
-import React from 'react';
-import {SafeAreaView, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, Text, StyleSheet, Picker} from 'react-native';
 import NotFound from '../../components/NotFound';
+import ContentCard from '../../components/ContentCard';
+import {healthRecommendationToTitleMap} from './constants';
 
-export default ({aqi, category, dominantPollutant, name, notFound}) => {
+export default ({aqi, category, dominantPollutant, error, healthRecommendation, loading, name, notFound, selectedRecommendation, onSelectedRecommendationChange}) => {
+  const renderPickerOptions = () => {
+    return Object.keys(healthRecommendationToTitleMap).map((item) => (
+      <Picker.Item
+        label={healthRecommendationToTitleMap[item]}
+        value={item}
+        />
+    ))
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,6 +24,20 @@ export default ({aqi, category, dominantPollutant, name, notFound}) => {
           <Text style={styles.airQuality}>{aqi}</Text>
           <Text style={styles.label}>{category}</Text>
           <Text style={styles.pollutant}>The dominant pollutant is: <Text style={{fontWeight: 'bold'}}>{dominantPollutant}</Text></Text>
+          <Text style={styles.pollutant}>See health warnings below</Text>
+
+          <Picker
+            style={{width: '100%', backgroundColor: '#c9c9c9', borderTopLeftRadius: 3, borderTopRightRadius: 3, borderBottomColor: 'white', borderBottomWidth: 1}}
+            selectedValue={selectedRecommendation}
+            onValueChange={(itemValue) => onSelectedRecommendationChange(itemValue)}
+          >
+          {renderPickerOptions()}
+          </Picker>
+          <ContentCard
+            error={error}
+            healthRecommendation={healthRecommendation}
+            loading={loading}
+          />
         </>
       }
     </SafeAreaView>

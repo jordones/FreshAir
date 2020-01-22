@@ -22,17 +22,16 @@ export default ({cityList, loading, error, openCityAirQualityScreen}) => {
       <FlatList
         contentContainerStyle={styles.list}
         data={cityList}
-        renderItem={({item: {name, data, error, imageUrl}}) => (
+        renderItem={({item: {name, lat, lon, data, error, imageUrl}}) => (
           <CityCard
-            key={name}
             name={name}
             data={data}
             error={error}
             imageUrl={imageUrl}
-            onPress={() => openCityAirQualityScreen(name, data)}
+            onPress={() => openCityAirQualityScreen(name, lat, lon, data)}
           />
        )}
-        keyExtractor={city => city.name}
+        keyExtractor={item => item.name}
       />
     </SafeAreaView>
   );
