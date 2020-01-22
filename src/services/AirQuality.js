@@ -12,8 +12,21 @@ export const getAirQualityData = async (lat, lon) => {
     params: {
       lat,
       lon,
-      key: API_KEY,
+      key: API_KEY
     },
   });
   return data;
 };
+
+export const getAirQualityFeatureData = async (lat, lon, features = []) => {
+  const {data} = await breezometerApi.get('/', {
+    params: {
+      lat,
+      lon,
+      key: API_KEY,
+      features: features.join(',')
+    },
+  });
+
+  return data;
+}
